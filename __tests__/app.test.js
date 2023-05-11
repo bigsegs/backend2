@@ -116,4 +116,15 @@ describe("GET /api/topics ", () => {
 
     
   })
+
+  // describe('GET /api/articles/:article_id/comments',()=>{
+  //   it('should return 400 Invalid Id for invalid Id',()=>{
+  //     return request(app)
+  //     .get('/api/articles/foobar/comments')
+  //     .expect(400)
+  //     .then((result)=>{
+  //       expect(result.body.msg).toEqual("Invalid article Id")
+  //     })
+  //   })
+  // })
  

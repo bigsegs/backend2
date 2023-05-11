@@ -48,8 +48,7 @@ return db
 
     const articlesArray=result.rows;
 
-console.log("result in model",articlesArray);
-
+git
     for(let i=0;i<articlesArray.length;i++){
 
         const article_id=articlesArray[i].article_id
