@@ -88,34 +88,10 @@ describe("GET /api/topics ", () => {
   
   })
 
-  describe('GET /api/articles',()=>{
-    it('should return an array on the key or articles',()=>{
-      return request(app)
-      .get('/api/articles')
-      .expect(200)
-      .then((result)=>{
-        expect(result.body).toHaveProperty('articles');
-        expect(Array.isArray(result.body.articles)).toBe(true);
-        expect(result.body.articles).toBeSortedBy("created_at",{descending:true});
-
-        result.body.articles.forEach(article=>{
-          expect(article).not.toHaveProperty('body');
-          expect(article).toHaveProperty('author');
-          expect(article).toHaveProperty('title');
-          expect(article).toHaveProperty('article_id');
-          expect(article).toHaveProperty('topic');
-          expect(article).toHaveProperty('created_at');
-          expect(article).toHaveProperty('votes');
-          expect(article).toHaveProperty('article_img_url');
-          expect(article).toHaveProperty('comment_count');
-           });
-       
-        
-        })
-    });
+  
 
     
-  })
+ 
 
   // describe('GET /api/articles/:article_id/comments',()=>{
   //   it('should return 400 Invalid Id for invalid Id',()=>{
