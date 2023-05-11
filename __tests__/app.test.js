@@ -97,7 +97,8 @@ describe("GET /api/topics ", () => {
         expect(result.body).toHaveProperty('articles');
         expect(Array.isArray(result.body.articles)).toBe(true);
         expect(result.body.articles.length).toBe(12)
-        expect(result.body.articles).toBeSortedBy("created_at",{descending:true});
+        expect(result.body.articles)
+        .toBeSortedBy("created_at",{descending:true});
 
         result.body.articles.forEach(article=>{
           expect(article).not.toHaveProperty('body');

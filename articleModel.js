@@ -43,8 +43,8 @@ exports.selectAllArticles=()=>{
    ORDER BY created_at DESC
   ;
   `
-  const article_id=1;
   
+
 
 return db
 .query(queryString)
