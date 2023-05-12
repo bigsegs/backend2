@@ -11,12 +11,11 @@ exports.selectArticleById=(id)=>{
 
  
     return db
-    .query(`SELECT title,article_id,topic,A.author,body
-    ,created_at,votes,
-     B.avatar_url AS article_img_url
-     FROM articles A
-     JOIN users B
-     ON A.author=B.username
+    .query(`SELECT title,article_id,topic,author,body
+    ,created_at,votes,article_img_url
+    FROM 
+    articles
+   
     WHERE article_id=$1;`,article_id)
     .then((result)=>{
         if(result.rows.length===0){
@@ -29,48 +28,35 @@ exports.selectArticleById=(id)=>{
 }
 
 exports.selectAllArticles=()=>{
-  const  queryString=`SELECT article_id,title,topic,A.author,
-  created_at,votes,
-   U.avatar_url AS article_img_url
+  const  queryString=`SELECT A.article_id,A.title,A.topic,
+  A.author,A.created_at,
+  A.article_img_url
+  ,COUNT(comment_id ) AS comment_count
+, SUM(comments.votes) AS votes
    
    FROM articles A
-   JOIN users U
-   ON A.author=U.username
+  
+   LEFT JOIN comments 
+   ON comments.article_id=A.article_id
+
+  GROUP BY A.article_id
    ORDER BY created_at DESC
   ;
   `
-  const article_id=1;
   
+
 
 return db
 .query(queryString)
 .then((result)=>{
 
     const articlesArray=result.rows;
+    return (articlesArray);
 
-git
-    for(let i=0;i<articlesArray.length;i++){
 
-        const article_id=articlesArray[i].article_id
-        const commentQuery=format(`SELECT * FROM comments
-    WHERE article_id=%L`,article_id);
-    
-        const cc= db
-        .query(commentQuery)
-        .then((result)=>{
-            const comment_count=result.rows.length;
-           return comment_count
-        });
-
-        articlesArray[i].comment_count=cc;
-    }
-   console.log("result in model before return", articlesArray)
-    return articlesArray;
 })
 
 }
-
-
 
 
 

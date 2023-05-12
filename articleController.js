@@ -13,7 +13,6 @@ selectArticleById(id).then((result)=>{
 
 exports.getAllArticles=(req,res,next)=>{
     selectAllArticles().then((result)=>{
-        //console.log("result in controller",result)
         res.status(200).send({articles:result})
     })
 };

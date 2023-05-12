@@ -88,19 +88,76 @@ describe("GET /api/topics ", () => {
   
   })
 
-  
+  describe('GET /api/articles',()=>{
+    it('should return an array on the key or articles',()=>{
+      return request(app)
+      .get('/api/articles')
+      .expect(200)
+      .then((result)=>{
+        expect(result.body).toHaveProperty('articles');
+        expect(Array.isArray(result.body.articles)).toBe(true);
+        expect(result.body.articles.length).toBe(12)
+        expect(result.body.articles)
+        .toBeSortedBy("created_at",{descending:true});
 
-    
- 
+        result.body.articles.forEach(article=>{
+          expect(article).not.toHaveProperty('body');
+          expect(article).toHaveProperty('author');
+          expect(article).toHaveProperty('title');
+          expect(article).toHaveProperty('article_id');
+          expect(article).toHaveProperty('topic');
+          expect(article).toHaveProperty('created_at');
+          expect(article).toHaveProperty('votes');
+          expect(article).toHaveProperty('article_img_url');
+          expect(article).toHaveProperty('comment_count');
+           });
+       
+        
+        })
+      })
 
-  // describe('GET /api/articles/:article_id/comments',()=>{
-  //   it('should return 400 Invalid Id for invalid Id',()=>{
-  //     return request(app)
-  //     .get('/api/articles/foobar/comments')
-  //     .expect(400)
-  //     .then((result)=>{
-  //       expect(result.body.msg).toEqual("Invalid article Id")
-  //     })
-  //   })
-  // })
+    })
+
+    describe.only('GET /api/articles/:article_id/comments',()=>{
+          it('should return 400 Invalid Id for invalid Id',()=>{
+      return request(app)
+      .get('/api/articles/"foobar"/comments')
+      .expect(400)
+      .then((result)=>{
+        expect(result.body.msg).toEqual("Invalid article Id")
+      })
+    })
+
+    it('should return 200 with correct properties',()=>{
+      return request(app)
+      .get('/api/articles/1/comments')
+      .expect(200)
+      .then((result)=>{
+        expect(result.body.comments).toBeSortedBy('created_at',{descending:true})
+        result.body.comments.forEach((comment)=>{
+        expect(comment).toHaveProperty('comment_id');
+        expect(comment).toHaveProperty('votes');
+        expect(comment).toHaveProperty('created_at');
+        expect(comment).toHaveProperty('author');
+        expect(comment).toHaveProperty('body');
+        expect(comment).toHaveProperty('article_id');
+        expect(typeof(comment.comment_id)).toBe('number');
+        expect(typeof(comment.votes)).toBe('number');
+        expect(typeof(comment.created_at)).toBe('string');
+        expect(typeof(comment.author)).toBe('string');
+        expect(typeof(comment.body)).toBe('string');
+        expect(typeof(comment.article_id)).toBe('number');
+        })
+      
+      })
+    })
+    it('should return 404 for no article',()=>{
+      return request(app)
+      .get('/api/articles/9999/comments')
+      .expect(404)
+      .then((result)=>{
+        expect(result.body.msg).toEqual("No comments found for given Id")
+      })
+    })
+  })
  
