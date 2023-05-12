@@ -118,7 +118,7 @@ describe("GET /api/topics ", () => {
 
     })
 
-    describe.only('GET /api/articles/:article_id/comments',()=>{
+    describe('GET /api/articles/:article_id/comments',()=>{
           it('should return 400 Invalid Id for invalid Id',()=>{
       return request(app)
       .get('/api/articles/"foobar"/comments')
@@ -134,6 +134,7 @@ describe("GET /api/topics ", () => {
       .expect(200)
       .then((result)=>{
         expect(result.body.comments).toBeSortedBy('created_at',{descending:true})
+        expect(result.body.comments.length).toBe(11);
         result.body.comments.forEach((comment)=>{
         expect(comment).toHaveProperty('comment_id');
         expect(comment).toHaveProperty('votes');
@@ -151,13 +152,15 @@ describe("GET /api/topics ", () => {
       
       })
     })
-    it('should return 404 for no article',()=>{
+    it('should return 200 for no comments',()=>{
       return request(app)
-      .get('/api/articles/9999/comments')
-      .expect(404)
+      .get('/api/articles/4/comments')
+      .expect(200)
       .then((result)=>{
         expect(result.body.msg).toEqual("No comments found for given Id")
       })
     })
+
+    
   })
  

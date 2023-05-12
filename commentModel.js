@@ -20,7 +20,7 @@ exports.selectCommentsByArticleId=(article_id)=>{
     .then((result)=>{
         if(result.rows.length===0){
             return Promise
-            .reject({status:404,msg:"No comments found for given Id"});
+            .reject({status:200,msg:"No comments found for given Id"});
         }
         return result.rows;
     })
