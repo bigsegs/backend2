@@ -21,6 +21,9 @@ selectCommentsByArticleId(article_id).then((result)=>{
 exports.postCommentByArticleId=(req,res,next)=>{
 const comment=req.body;
 const article_id=req.params.article_id;
+
+
+
     insertCommentById(comment,article_id).then((result)=>{
         res.status(201).send({posted_comment:result})
     })

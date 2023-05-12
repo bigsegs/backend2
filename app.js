@@ -5,6 +5,8 @@ const {getArticleById,getAllArticles}=require('./articleController.js');
 const {getCommentsByArticleId,postCommentByArticleId}=require('./commentController.js');
 const {getJson}=require('./jsonController.js');
 
+app.use(express.json());
+
 app.get('/api/topics',getTopics);
 
 app.get('/api',getJson);

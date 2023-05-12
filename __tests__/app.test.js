@@ -180,4 +180,50 @@ describe("GET /api/topics ", () => {
 
     
   })
+
+  describe('POST /api/articles/:article_id/comments',()=>{
+    it('should return 201 with posted comment',()=>{
+      return request(app)
+      .post('/api/articles/1/comments')
+      .expect(201)
+      .send({"username":"lurker","body":"What a Terrible Failure"})
+      .then((result)=>{
+        const comment=result.body.posted_comment;
+        expect(comment.article_id).toEqual(1);
+        expect(comment.author).toEqual("lurker");
+        expect(comment.body).toEqual("What a Terrible Failure");
+        expect(comment.comment_id).toEqual(19);
+        expect(typeof (comment.created_at)).toBe("string");
+        expect(comment.votes).toEqual(0);
+      })
+    })
+    it('should return 500 with Invalid data type',()=>{
+      return request(app)
+      .post('/api/articles/"foobar"/comments')
+      .expect(500)
+      .send({"username":"bob","body":"What a Terrible Failure"})
+      .then((result)=>{
+                expect(result.body.msg).toEqual("Invalid data type");
+      })
+    })
+    it('should return 500 with User not found',()=>{
+      return request(app)
+      .post('/api/articles/1/comments')
+      .expect(500)
+      .send({"username":"bob","body":"What a Terrible Failure"})
+      .then((result)=>{
+                expect(result.body.msg).toEqual("User not found");
+      })
+    })
+    it('should return 500 with User not found',()=>{
+      return request(app)
+      .post('/api/articles/1/comments')
+      .expect(500)
+      .send({"username":"bob","body":null})
+      .then((result)=>{
+                expect(result.body.msg).toEqual("Invalid data type");
+      })
+    })
+  })
+
  
