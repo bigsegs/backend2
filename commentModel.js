@@ -21,3 +21,23 @@ exports.selectCommentsByArticleId=(article_id)=>{
         return result.rows;
     })
 }
+
+exports.insertCommentById=(comment,article_id)=>{
+const author=comment.username;
+const body=comment.body;
+const votes=0;
+const created_at=Date.now();
+const values=[[body],[votes],[author],[article_id],[created_at]]
+    const queryString=format(`
+    INSERT INTO comments
+    (body,votes,author,article_id,created_at)
+    VALUES
+    %L
+    RETURNING *;`,values);
+
+    return db
+    .query(queryString)
+    .then((result)=>{
+        return result.rows;
+    })
+}
