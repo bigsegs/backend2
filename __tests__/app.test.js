@@ -57,13 +57,20 @@ describe("GET /api/topics ", () => {
       .get('/api/articles/1')
       .expect(200)
       .then((result)=>{
-        expect(result.body.article.article_id).toEqual(1);
-        expect(result.body.article).toHaveProperty('title');
-        expect(result.body.article).toHaveProperty('body');
-        expect(result.body.article).toHaveProperty('topic');
-        expect(result.body.article).toHaveProperty('created_at');
-        expect(result.body.article).toHaveProperty('votes');
-        expect(result.body.article).toHaveProperty('article_img_url');
+        const article=result.body.article;
+        expect(article.article_id).toEqual(1);
+        expect(article).toHaveProperty('title');
+        expect(article).toHaveProperty('body');
+        expect(article).toHaveProperty('topic');
+        expect(article).toHaveProperty('created_at');
+        expect(article).toHaveProperty('votes');
+        expect(article).toHaveProperty('article_img_url');
+        expect(typeof (article.title)).toBe('string');
+        expect(typeof (article.body)).toBe('string');
+        expect(typeof (article.topic)).toBe('string');
+        expect(typeof (article.votes)).toBe('number');
+        expect(typeof (article.article_img_url)).toBe('string');
+        expect(typeof (article.created_at)).toBe('string');
       })
     })
 
@@ -94,6 +101,7 @@ describe("GET /api/topics ", () => {
       .get('/api/articles')
       .expect(200)
       .then((result)=>{
+        
         expect(result.body).toHaveProperty('articles');
         expect(Array.isArray(result.body.articles)).toBe(true);
         expect(result.body.articles.length).toBe(12)
@@ -110,6 +118,15 @@ describe("GET /api/topics ", () => {
           expect(article).toHaveProperty('votes');
           expect(article).toHaveProperty('article_img_url');
           expect(article).toHaveProperty('comment_count');
+          expect(typeof(article.author)).toBe('string');
+          expect(typeof(article.title)).toBe('string');
+          expect(typeof(article.article_id)).toBe('number');
+          expect(typeof(article.topic)).toBe('string');
+          expect(typeof(article.created_at)).toBe('string');
+          expect(typeof(article.votes)).toBe('string');
+          expect(typeof(article.article_img_url)).toBe('string');
+          expect(typeof(article.author)).toBe('string');
+
            });
        
         

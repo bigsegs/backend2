@@ -32,7 +32,7 @@ exports.selectAllArticles=()=>{
   A.author,A.created_at,
   A.article_img_url
   ,COUNT(comment_id ) AS comment_count
-, SUM(comments.votes) AS votes
+, COUNT(comments.votes) AS votes 
    
    FROM articles A
   
