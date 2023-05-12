@@ -131,7 +131,52 @@ describe("GET /api/topics ", () => {
        
         
         })
-    });
+      })
+
+    })
+
+    describe('GET /api/articles/:article_id/comments',()=>{
+          it('should return 400 Invalid Id for invalid Id',()=>{
+      return request(app)
+      .get('/api/articles/"foobar"/comments')
+      .expect(400)
+      .then((result)=>{
+        expect(result.body.msg).toEqual("Invalid article Id")
+      })
+    })
+
+    it('should return 200 with correct properties',()=>{
+      return request(app)
+      .get('/api/articles/1/comments')
+      .expect(200)
+      .then((result)=>{
+        expect(result.body.comments).toBeSortedBy('created_at',{descending:true})
+        expect(result.body.comments.length).toBe(11);
+        result.body.comments.forEach((comment)=>{
+        expect(comment).toHaveProperty('comment_id');
+        expect(comment).toHaveProperty('votes');
+        expect(comment).toHaveProperty('created_at');
+        expect(comment).toHaveProperty('author');
+        expect(comment).toHaveProperty('body');
+        expect(comment).toHaveProperty('article_id');
+        expect(typeof(comment.comment_id)).toBe('number');
+        expect(typeof(comment.votes)).toBe('number');
+        expect(typeof(comment.created_at)).toBe('string');
+        expect(typeof(comment.author)).toBe('string');
+        expect(typeof(comment.body)).toBe('string');
+        expect(typeof(comment.article_id)).toBe('number');
+        })
+      
+      })
+    })
+    it('should return 200 for no comments',()=>{
+      return request(app)
+      .get('/api/articles/4/comments')
+      .expect(200)
+      .then((result)=>{
+        expect(result.body.msg).toEqual("No comments found for given Id")
+      })
+    })
 
     
   })
