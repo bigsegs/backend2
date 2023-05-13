@@ -225,5 +225,21 @@ describe("GET /api/topics ", () => {
       })
     })
   })
+  describe('PATCH /api/articles/:article_id',()=>{
+    it('should respond 200 with updated article',()=>{
+      return request(app)
+      .patch('/api/articles/1')
+      .expect(200)
+      .send({inc_votes:2})
+      .then((result)=>{
+       
+        const article=result.body.article;
+        expect(article.article_id).toBe(1);
+        expect(article.votes).toBe(102);
+
+      })
+
+    })
+  })
 
  

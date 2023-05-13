@@ -43,18 +43,43 @@ exports.selectAllArticles=()=>{
    ORDER BY created_at DESC
   ;
   `
-  
-
-
 return db
 .query(queryString)
 .then((result)=>{
-
     const articlesArray=result.rows;
     return (articlesArray);
-
-
 })
+}
+
+exports.updateArticleById =(voteObject,article_id)=>{
+   
+
+const newVotes=voteObject.inc_votes;
+console.log(newVotes)
+const values=[newVotes,article_id];
+
+    // const queryString=format(`
+    // UPDATE articles
+    // SET votes=votes+%L
+    // WHERE article_id=%L
+    // RETURNING *;`,[newVotes,article_id]);
+   // console.log(queryString)
+    
+    return db
+    .query(`
+    UPDATE articles
+    SET votes=votes+$1
+    WHERE article_id=$2
+    RETURNING *;`,[newVotes,article_id]
+    )
+    .then((result)=>{
+       
+        return result.rows[0];
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+
 
 }
 
