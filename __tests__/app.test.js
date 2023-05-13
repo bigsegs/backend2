@@ -294,6 +294,7 @@ describe("GET /api/topics ", () => {
       .delete('/api/comments/2')
       .expect(204)
       .then((result)=>{
+        console.log(result.body)
         expect(result.body).toEqual({});
       })
     })
@@ -302,6 +303,7 @@ describe("GET /api/topics ", () => {
       .delete('/api/comments/9999')
       .expect(404)
       .then((result)=>{
+        
         expect(result.body.msg).toEqual("Comment not found");
       })
     })
