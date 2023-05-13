@@ -55,15 +55,8 @@ exports.updateArticleById =(voteObject,article_id)=>{
    
 
 const newVotes=voteObject.inc_votes;
-console.log(newVotes)
-const values=[newVotes,article_id];
 
-    // const queryString=format(`
-    // UPDATE articles
-    // SET votes=votes+%L
-    // WHERE article_id=%L
-    // RETURNING *;`,[newVotes,article_id]);
-   // console.log(queryString)
+
     
     return db
     .query(`
@@ -74,10 +67,18 @@ const values=[newVotes,article_id];
     )
     .then((result)=>{
        
+       if(result.rows.length!==0){
         return result.rows[0];
+       }else return Promise.reject({status:404,msg:'Article not found'})
     })
     .catch((err)=>{
-        console.log(err)
+        if(err.code==='22P02'){
+            return Promise.reject({status:400,msg:"Invalid data type"})
+        }
+        else{
+            return Promise.reject({status:err.status,msg:err.msg})
+        }
+        
     })
 
 

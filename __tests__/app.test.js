@@ -236,10 +236,57 @@ describe("GET /api/topics ", () => {
         const article=result.body.article;
         expect(article.article_id).toBe(1);
         expect(article.votes).toBe(102);
-
+        expect(article.title).toBe('Living in the shadow of a great man')
+        expect(article.topic).toBe('mitch');
+        expect(article.author).toBe('butter_bridge');
+        expect(article.body).toBe('I find this existence challenging');
+        expect(article.created_at).toBe('2020-07-09T20:11:00.000Z');
+        expect(article.article_img_url).toBe(`https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700`)
       })
 
     })
+
+      it('should respond 200 votes to be -2',()=>{
+        return request(app)
+        .patch('/api/articles/1')
+        .expect(200)
+        .send({inc_votes:-102})
+        .then((result)=>{
+          const article=result.body.article;
+          expect(article.votes).toBe(-2);
+
+        })
+      })
+      it('should respond with 400 and invalid data type',()=>{
+        return request(app)
+        .patch('/api/articles/1')
+        .expect(400)
+        .send({inc_votes:';DROP TABLE articles; --'})
+        .then((result)=>{
+        expect(result.body.msg).toEqual("Invalid data type")
+        })
+
+      })
+      it('should respond with 404 and Article not found',()=>{
+        return request(app)
+        .patch('/api/articles/9999')
+        .expect(404)
+        .send({inc_votes:1})
+        .then((result)=>{
+        expect(result.body.msg).toEqual("Article not found")
+        })
+
+      })
+      it('should respond with 400 and invalid data type',()=>{
+        return request(app)
+        .patch('/api/articles/;DROP TABLE articles; --')
+        .expect(400)
+        .send({inc_votes:1})
+        .then((result)=>{
+        expect(result.body.msg).toEqual("Invalid data type")
+        })
+      })
+      
   })
 
  

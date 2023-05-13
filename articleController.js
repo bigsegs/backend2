@@ -20,7 +20,6 @@ exports.getAllArticles=(req,res,next)=>{
 exports.patchArticleById=(req,res,next)=>{
     const voteObject=req.body
     const id=req.params.article_id;
-    
     updateArticleById(voteObject,id).then((result)=>{
         res.status(200).send({article:result})
     }).catch((err)=>{
