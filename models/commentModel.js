@@ -1,4 +1,4 @@
-const db=require('./db/connection.js');
+const db=require('../db/connection.js');
 const format=require('pg-format');
 
 exports.selectCommentsByArticleId=(article_id)=>{
@@ -83,6 +83,24 @@ exports.insertCommentById=(comment,article_id)=>{
             
             
         })
+    }
+
+    exports.deleteCommentById=(id)=>{
+        const queryString=format(`
+        DELETE FROM comments
+        WHERE comment_id=%L
+        RETURNING *;`,[[id]]);
+
+        return db
+        .query(queryString)
+        .then((result)=>{
+            if(result.rows.length!==0){
+            return result.rows;
+            }else return Promise.reject({status:404,msg:"Comment not found"})
+        })
+        .catch((err=>{
+            return Promise.reject({status:err.status,msg:err.msg})
+        }))
     }
     
     

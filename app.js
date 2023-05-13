@@ -1,9 +1,9 @@
 const express=require('express');
 const app = express();
-const {getTopics}=require('./topicController.js');
-const {getArticleById,getAllArticles,patchArticleById}=require('./articleController.js');
-const {getCommentsByArticleId,postCommentByArticleId}=require('./commentController.js');
-const {getJson}=require('./jsonController.js');
+const {getTopics}=require('./controllers/topicController.js');
+const {getArticleById,getAllArticles,patchArticleById}=require('./controllers/articleController.js');
+const {getCommentsByArticleId,postCommentByArticleId,deleteCommentByCommentId}=require('./controllers/commentController.js');
+const {getJson}=require('./controllers/jsonController.js');
 
 app.use(express.json());
 
@@ -20,6 +20,8 @@ app.post('/api/articles/:article_id/comments',postCommentByArticleId)
 app.get('/api/articles/:article_id/comments',getCommentsByArticleId)
 
 app.patch('/api/articles/:article_id',patchArticleById)
+
+app.delete('/api/comments/:comment_id',deleteCommentByCommentId)
 
 
 app.use((err,req,res,next)=>{

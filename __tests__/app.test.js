@@ -289,4 +289,31 @@ describe("GET /api/topics ", () => {
       
   })
 
+  describe('DELETE /api/comments/:comment_id',()=>{
+    it('should return 204, no content',()=>{
+      return request(app)
+      .delete('/api/comments/2')
+      .expect(204)
+      .then((result)=>{
+        expect(result.body).toEqual({});
+      })
+    })
+    it('should return 404, comment not found',()=>{
+      return request(app)
+      .delete('/api/comments/9999')
+      .expect(404)
+      .then((result)=>{
+        expect(result.body.msg).toEqual("Comment not found");
+      })
+    })
+    // it('should return 204, no content',()=>{
+    //   return request(app)
+    //   .delete('/api/comments/2')
+    //   .expect(204)
+    //   .then((result)=>{
+    //     expect(result.body).toEqual({});
+    //   })
+    // })
+  })
+
  

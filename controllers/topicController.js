@@ -1,4 +1,4 @@
-const {selectTopics}=require('./topicModel.js');
+const {selectTopics}=require('../models/topicModel.js');
 
 exports.getTopics=(req,res)=>{
 

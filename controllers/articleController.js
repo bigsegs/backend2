@@ -1,4 +1,4 @@
-const{selectArticleById,selectAllArticles,updateArticleById}=require('./articleModel.js');
+const{selectArticleById,selectAllArticles,updateArticleById}=require('../models/articleModel.js');
 
 exports.getArticleById=(req,res,next)=>{
 const id=req.params.article_id;

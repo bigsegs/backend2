@@ -1,5 +1,5 @@
 
-const {selectCommentsByArticleId,insertCommentById}=require('./commentModel');
+const {selectCommentsByArticleId,insertCommentById,deleteCommentById}=require('../models/commentModel');
 
 exports.getCommentsByArticleId=(req,res,next)=>{
     
@@ -30,4 +30,17 @@ const article_id=req.params.article_id;
     .catch((err)=>{
         next(err)
     })
+}
+
+exports.deleteCommentByCommentId=(req,res,next)=>{
+const id=req.params.comment_id;
+
+ deleteCommentById(id).then(()=>{
+    res.status(204).send();
+
+})
+.catch((err)=>{
+    next(err)
+})
+
 }
