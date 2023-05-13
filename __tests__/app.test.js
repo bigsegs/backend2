@@ -306,14 +306,14 @@ describe("GET /api/topics ", () => {
         expect(result.body.msg).toEqual("Comment not found");
       })
     })
-    // it('should return 204, no content',()=>{
-    //   return request(app)
-    //   .delete('/api/comments/2')
-    //   .expect(204)
-    //   .then((result)=>{
-    //     expect(result.body).toEqual({});
-    //   })
-    // })
+    it('should return 400, Invalid data type',()=>{
+      return request(app)
+      .delete('/api/comments/comment2')
+      .expect(400)
+      .then((result)=>{
+        expect(result.body.msg).toEqual("Invalid data type");
+      })
+    })
   })
 
  

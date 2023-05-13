@@ -99,6 +99,9 @@ exports.insertCommentById=(comment,article_id)=>{
             }else return Promise.reject({status:404,msg:"Comment not found"})
         })
         .catch((err=>{
+            if(err.code==="22P02"){
+                return Promise.reject({status:400,msg:"Invalid data type"});
+            }else
             return Promise.reject({status:err.status,msg:err.msg})
         }))
     }
