@@ -26,6 +26,9 @@ app.delete('/api/comments/:comment_id',deleteCommentByCommentId)
 
 app.use((err,req,res,next)=>{
   // console.log(err)
+  if(err.status===500  && !err.msg){
+    res.status(500).send({msg:"What a Terrible Failure"})
+  }
     res.status(err.status).send({msg:err.msg})
 })
 

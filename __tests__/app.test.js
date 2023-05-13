@@ -101,7 +101,6 @@ describe("GET /api/topics ", () => {
       .get('/api/articles')
       .expect(200)
       .then((result)=>{
-        
         expect(result.body).toHaveProperty('articles');
         expect(Array.isArray(result.body.articles)).toBe(true);
         expect(result.body.articles.length).toBe(12)
