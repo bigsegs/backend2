@@ -294,7 +294,6 @@ describe("GET /api/topics ", () => {
       .delete('/api/comments/2')
       .expect(204)
       .then((result)=>{
-        console.log(result.body)
         expect(result.body).toEqual({});
       })
     })
