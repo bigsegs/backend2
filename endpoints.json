@@ -92,7 +92,7 @@
     }
   },
   "DELETE /api/comments/:comment_id":{
-    "description":"accepts a votes object by article_id",
+    "description":"deletes a comment by comment_id",
     "queries":[],
     "exampleResponse":{} 
  
