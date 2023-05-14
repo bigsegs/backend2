@@ -9,7 +9,6 @@ exports.selectTopics=()=>{
         return result.rows;
     })
     .catch((err)=>{
-        console.log(err);
         return (err);
     })
 }

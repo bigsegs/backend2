@@ -316,4 +316,22 @@ describe("GET /api/topics ", () => {
     })
   })
 
+  describe('GET api/users',()=>{
+    it('return an array on key of users',()=>{
+      return request(app)
+      .get('/api/users')
+      .expect(200)
+      .then((result)=>{
+        const userArray=result.body.users;
+        expect(Array.isArray(result.body.users)).toBe(true);
+        expect(result.body.users.length).toBe(4)
+        userArray.forEach(user=>{
+          expect(user).toHaveProperty('username');
+          expect(user).toHaveProperty('name')
+          expect(user).toHaveProperty('avatar_url')
+        })
+      })
+    })
+  })
+
  
